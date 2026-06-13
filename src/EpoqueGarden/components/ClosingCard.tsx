@@ -9,11 +9,13 @@ import {
 } from "remotion";
 import {
   CLOSING_TEXT_DELAY_FRAMES,
+  LOGO_DROP_SHADOW,
   LOGO_FILE,
   LOGO_WIDTH,
   SAFE,
   TEXT_COLOR,
-  TEXT_SHADOW,
+  TEXT_DROP_SHADOW,
+  TEXT_STROKE,
 } from "../constants";
 import type { OverlayTypography } from "../fonts";
 
@@ -25,12 +27,15 @@ export type ClosingCardProps = {
   outFrame: number;
   fontSize: number;
   typography: OverlayTypography;
+  /** Keep logo + copy visible until the staged full fade takes over. */
+  holdUntilEnd?: boolean;
 };
 
 const staggeredOpacity = (
   frame: number,
   inFrame: number,
   outFrame: number,
+  holdUntilEnd = false,
 ) => {
   if (frame < inFrame || frame > outFrame) {
     return 0;
@@ -43,7 +48,7 @@ const staggeredOpacity = (
     });
   }
 
-  if (frame > outFrame - FADE_FRAMES) {
+  if (!holdUntilEnd && frame > outFrame - FADE_FRAMES) {
     return interpolate(
       frame,
       [outFrame - FADE_FRAMES, outFrame],
@@ -62,6 +67,7 @@ export const ClosingCard: React.FC<ClosingCardProps> = ({
   outFrame,
   fontSize,
   typography,
+  holdUntilEnd = false,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -72,8 +78,13 @@ export const ClosingCard: React.FC<ClosingCardProps> = ({
 
   const textInFrame = inFrame + CLOSING_TEXT_DELAY_FRAMES;
 
-  const logoOpacity = staggeredOpacity(frame, inFrame, outFrame);
-  const textOpacity = staggeredOpacity(frame, textInFrame, outFrame);
+  const logoOpacity = staggeredOpacity(frame, inFrame, outFrame, holdUntilEnd);
+  const textOpacity = staggeredOpacity(
+    frame,
+    textInFrame,
+    outFrame,
+    holdUntilEnd,
+  );
 
   const logoEnter = spring({
     frame: frame - inFrame,
@@ -114,7 +125,7 @@ export const ClosingCard: React.FC<ClosingCardProps> = ({
             transform: `translateY(${logoY}px)`,
             width: LOGO_WIDTH,
             height: "auto",
-            filter: "drop-shadow(0 4px 24px rgba(0,0,0,0.55))",
+            filter: LOGO_DROP_SHADOW,
           }}
         />
         <div
@@ -128,7 +139,9 @@ export const ClosingCard: React.FC<ClosingCardProps> = ({
             lineHeight: typography.lineHeight ?? 1.2,
             letterSpacing: typography.letterSpacing,
             textAlign: "center",
-            textShadow: TEXT_SHADOW,
+            WebkitTextStroke: TEXT_STROKE,
+            paintOrder: "stroke fill",
+            filter: TEXT_DROP_SHADOW,
           }}
         >
           {text}

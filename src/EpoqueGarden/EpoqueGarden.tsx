@@ -9,8 +9,8 @@ import {
   CLIPS,
   DURATION_IN_FRAMES,
   ENABLE_MUSIC,
+  FADE_OUT_START,
   INCOMING_TRANSITIONS,
-  MUSIC_FADE_FRAMES,
   MUSIC_FILE,
   MUSIC_START_FROM,
   overlapForTransition,
@@ -22,6 +22,10 @@ import {
 } from "./constants";
 import { AmbientCut } from "./components/AmbientCut";
 import { ClosingCard } from "./components/ClosingCard";
+import {
+  BackgroundFadeToBlack,
+  FullFadeToBlack,
+} from "./components/FadeToBlack";
 import { Grade } from "./components/Grade";
 import { TextOverlay } from "./components/TextOverlay";
 import { WalkInHook } from "./components/WalkInHook";
@@ -62,75 +66,77 @@ export const EpoqueGarden: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
-      {/* --- Footage timeline --- */}
-      <Sequence
-        from={TIMELINE.walkin.from}
-        durationInFrames={TIMELINE.walkin.duration}
-      >
-        <WalkInHook />
-      </Sequence>
+      <AbsoluteFill>
+        {/* --- Footage timeline --- */}
+        <Sequence
+          from={TIMELINE.walkin.from}
+          durationInFrames={TIMELINE.walkin.duration}
+        >
+          <WalkInHook />
+        </Sequence>
 
-      <Sequence from={ambient.from} durationInFrames={ambient.durationInFrames}>
-        <AmbientCut
-          clip={CLIPS.ambientDetail}
-          trimBefore={TRIMS.ambientDetail}
-          transitionIn={INCOMING_TRANSITIONS.ambientDetail}
-        />
-      </Sequence>
+        <Sequence from={ambient.from} durationInFrames={ambient.durationInFrames}>
+          <AmbientCut
+            clip={CLIPS.ambientDetail}
+            trimBefore={TRIMS.ambientDetail}
+            transitionIn={INCOMING_TRANSITIONS.ambientDetail}
+          />
+        </Sequence>
 
-      <Sequence from={reveal.from} durationInFrames={reveal.durationInFrames}>
-        <AmbientCut
-          clip={CLIPS.reveal}
-          trimBefore={TRIMS.reveal}
-          transitionIn={INCOMING_TRANSITIONS.reveal}
-          scaleFrom={PUNCH_IN.revealFrom}
-          scaleTo={PUNCH_IN.revealTo}
-          scaleDurationInFrames={TIMELINE.reveal.duration}
-        />
-      </Sequence>
+        <Sequence from={reveal.from} durationInFrames={reveal.durationInFrames}>
+          <AmbientCut
+            clip={CLIPS.reveal}
+            trimBefore={TRIMS.reveal}
+            transitionIn={INCOMING_TRANSITIONS.reveal}
+            scaleFrom={PUNCH_IN.revealFrom}
+            scaleTo={PUNCH_IN.revealTo}
+            scaleDurationInFrames={TIMELINE.reveal.duration}
+          />
+        </Sequence>
 
-      <Sequence from={crowd.from} durationInFrames={crowd.durationInFrames}>
-        <AmbientCut
-          clip={CLIPS.crowd}
-          trimBefore={TRIMS.crowd}
-          transitionIn={INCOMING_TRANSITIONS.crowd}
-        />
-      </Sequence>
+        <Sequence from={crowd.from} durationInFrames={crowd.durationInFrames}>
+          <AmbientCut
+            clip={CLIPS.crowd}
+            trimBefore={TRIMS.crowd}
+            transitionIn={INCOMING_TRANSITIONS.crowd}
+          />
+        </Sequence>
 
-      <Sequence
-        from={waterChannel.from}
-        durationInFrames={waterChannel.durationInFrames}
-      >
-        <AmbientCut
-          clip={CLIPS.waterChannel}
-          trimBefore={TRIMS.waterChannel}
-          transitionIn={INCOMING_TRANSITIONS.waterChannel}
-        />
-      </Sequence>
+        <Sequence
+          from={waterChannel.from}
+          durationInFrames={waterChannel.durationInFrames}
+        >
+          <AmbientCut
+            clip={CLIPS.waterChannel}
+            trimBefore={TRIMS.waterChannel}
+            transitionIn={INCOMING_TRANSITIONS.waterChannel}
+          />
+        </Sequence>
 
-      <Sequence
-        from={wineClink.from}
-        durationInFrames={wineClink.durationInFrames}
-      >
-        <WineClink transitionIn={INCOMING_TRANSITIONS.wineClink} />
-      </Sequence>
+        <Sequence
+          from={wineClink.from}
+          durationInFrames={wineClink.durationInFrames}
+        >
+          <WineClink transitionIn={INCOMING_TRANSITIONS.wineClink} />
+        </Sequence>
 
-      <Sequence
-        from={finalSettle.from}
-        durationInFrames={finalSettle.durationInFrames}
-      >
-        <AmbientCut
-          clip={CLIPS.reveal}
-          trimBefore={TRIMS.finalSettle}
-          transitionIn={INCOMING_TRANSITIONS.finalSettle}
-          scaleFrom={PUNCH_IN.finalFrom}
-          scaleTo={PUNCH_IN.finalTo}
-          scaleDurationInFrames={finalSettle.durationInFrames}
-        />
-      </Sequence>
+        <Sequence
+          from={finalSettle.from}
+          durationInFrames={finalSettle.durationInFrames}
+        >
+          <AmbientCut
+            clip={CLIPS.reveal}
+            trimBefore={TRIMS.finalSettle}
+            transitionIn={INCOMING_TRANSITIONS.finalSettle}
+            scaleFrom={PUNCH_IN.finalFrom}
+            scaleTo={PUNCH_IN.finalTo}
+            scaleDurationInFrames={finalSettle.durationInFrames}
+          />
+        </Sequence>
 
-      {/* --- Warm grade + vignette (above all footage) --- */}
-      <Grade />
+        <Grade />
+        <BackgroundFadeToBlack />
+      </AbsoluteFill>
 
       {/* --- Text overlays --- */}
       <TextOverlay
@@ -155,7 +161,10 @@ export const EpoqueGarden: React.FC = () => {
         outFrame={OVERLAYS.cta.out}
         fontSize={52}
         typography={OVERLAY_TYPOGRAPHY.cta}
+        holdUntilEnd
       />
+
+      <FullFadeToBlack />
 
       {/* --- Music (drop /public/music.mp3 and set ENABLE_MUSIC = true) --- */}
       {ENABLE_MUSIC && (
@@ -165,7 +174,7 @@ export const EpoqueGarden: React.FC = () => {
           volume={(f) =>
             interpolate(
               f,
-              [DURATION_IN_FRAMES - MUSIC_FADE_FRAMES, DURATION_IN_FRAMES],
+              [FADE_OUT_START, DURATION_IN_FRAMES],
               [1, 0],
               { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
             )

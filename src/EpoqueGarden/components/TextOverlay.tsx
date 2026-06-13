@@ -6,7 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import type { OverlayTypography } from "../fonts";
-import { SAFE, TEXT_COLOR, TEXT_SHADOW } from "../constants";
+import { SAFE, TEXT_COLOR, TEXT_DROP_SHADOW, TEXT_STROKE } from "../constants";
 
 const FADE_FRAMES = 12;
 
@@ -77,7 +77,9 @@ export const TextOverlay: React.FC<TextOverlayProps> = ({
           lineHeight: typography.lineHeight ?? 1.05,
           letterSpacing: typography.letterSpacing,
           textAlign: "center",
-          textShadow: TEXT_SHADOW,
+          WebkitTextStroke: TEXT_STROKE,
+          paintOrder: "stroke fill",
+          filter: TEXT_DROP_SHADOW,
         }}
       >
         {text}

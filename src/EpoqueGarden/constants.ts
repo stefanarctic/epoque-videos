@@ -133,8 +133,13 @@ export const TEXT = {
 } as const;
 
 export const TEXT_COLOR = "#faf6f0";
-export const TEXT_SHADOW =
-  "0 2px 24px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.45)";
+/** Follows glyph shapes — no flat box behind the copy. */
+export const TEXT_DROP_SHADOW =
+  "drop-shadow(0 0 1px rgba(0,0,0,0.95)) drop-shadow(0 1px 2px rgba(0,0,0,0.85)) drop-shadow(0 3px 14px rgba(0,0,0,0.5))";
+export const TEXT_STROKE = "0.4px rgba(0,0,0,0.35)";
+/** Dark halo so the orange logo reads on warm / busy backgrounds. */
+export const LOGO_DROP_SHADOW =
+  "drop-shadow(0 0 1px rgba(0,0,0,0.95)) drop-shadow(0 0 16px rgba(0,0,0,0.7)) drop-shadow(0 6px 28px rgba(0,0,0,0.55))";
 
 // IG / TikTok UI safe zones (px). Keep all text inside these margins.
 export const SAFE = {
@@ -156,4 +161,9 @@ export const OVERLAYS = {
 export const ENABLE_MUSIC = true;
 export const MUSIC_FILE = "music.mp3";
 export const MUSIC_START_FROM = 0; // shift to land the first downbeat on frame 0
-export const MUSIC_FADE_FRAMES = 30; // fade volume 1 -> 0 over the last 30 frames
+export const FADE_OUT_BG_FRAMES = 18; // footage + grade -> black
+export const FADE_OUT_HOLD_FRAMES = 36; // logo on black before the final fade
+export const FADE_OUT_ALL_FRAMES = 15; // overlays -> black
+export const FADE_OUT_TOTAL_FRAMES =
+  FADE_OUT_BG_FRAMES + FADE_OUT_HOLD_FRAMES + FADE_OUT_ALL_FRAMES;
+export const FADE_OUT_START = DURATION_IN_FRAMES - FADE_OUT_TOTAL_FRAMES;
