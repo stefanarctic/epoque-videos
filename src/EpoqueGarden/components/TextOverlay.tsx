@@ -5,7 +5,8 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { FONT_FAMILY, SAFE, TEXT_COLOR, TEXT_SHADOW } from "../constants";
+import type { OverlayTypography } from "../fonts";
+import { SAFE, TEXT_COLOR, TEXT_SHADOW } from "../constants";
 
 const FADE_FRAMES = 12;
 
@@ -16,6 +17,7 @@ export type TextOverlayProps = {
   /** Absolute composition frame the overlay is fully gone by. */
   outFrame: number;
   fontSize: number;
+  typography: OverlayTypography;
   /** Vertical anchor within the safe zone. */
   placement?: "center" | "bottom";
 };
@@ -29,6 +31,7 @@ export const TextOverlay: React.FC<TextOverlayProps> = ({
   inFrame,
   outFrame,
   fontSize,
+  typography,
   placement = "center",
 }) => {
   const frame = useCurrentFrame();
@@ -68,11 +71,11 @@ export const TextOverlay: React.FC<TextOverlayProps> = ({
           opacity,
           transform: `translateY(${translateY}px)`,
           color: TEXT_COLOR,
-          fontFamily: FONT_FAMILY,
-          fontWeight: 800,
+          fontFamily: typography.fontFamily,
+          fontWeight: typography.fontWeight,
           fontSize,
-          lineHeight: 1.05,
-          letterSpacing: "-0.02em",
+          lineHeight: typography.lineHeight ?? 1.05,
+          letterSpacing: typography.letterSpacing,
           textAlign: "center",
           textShadow: TEXT_SHADOW,
         }}

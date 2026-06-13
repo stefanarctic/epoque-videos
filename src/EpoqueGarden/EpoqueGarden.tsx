@@ -21,10 +21,12 @@ import {
   TRIMS,
 } from "./constants";
 import { AmbientCut } from "./components/AmbientCut";
+import { ClosingCard } from "./components/ClosingCard";
 import { Grade } from "./components/Grade";
 import { TextOverlay } from "./components/TextOverlay";
 import { WalkInHook } from "./components/WalkInHook";
 import { WineClink } from "./components/WineClink";
+import { OVERLAY_TYPOGRAPHY } from "./fonts";
 
 export const EpoqueGarden: React.FC = () => {
   const ambient = overlapForTransition(
@@ -135,22 +137,24 @@ export const EpoqueGarden: React.FC = () => {
         text={TEXT.title}
         inFrame={OVERLAYS.title.in}
         outFrame={OVERLAYS.title.out}
-        fontSize={120}
+        fontSize={112}
+        typography={OVERLAY_TYPOGRAPHY.title}
         placement="center"
       />
       <TextOverlay
         text={TEXT.subtitle}
         inFrame={OVERLAYS.subtitle.in}
         outFrame={OVERLAYS.subtitle.out}
-        fontSize={96}
+        fontSize={108}
+        typography={OVERLAY_TYPOGRAPHY.subtitle}
         placement="center"
       />
-      <TextOverlay
+      <ClosingCard
         text={TEXT.cta}
         inFrame={OVERLAYS.cta.in}
         outFrame={OVERLAYS.cta.out}
-        fontSize={64}
-        placement="bottom"
+        fontSize={52}
+        typography={OVERLAY_TYPOGRAPHY.cta}
       />
 
       {/* --- Music (drop /public/music.mp3 and set ENABLE_MUSIC = true) --- */}

@@ -116,18 +116,25 @@ export const VIGNETTE =
   "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)";
 
 // ---------------------------------------------------------------------------
+// Brand assets
+// ---------------------------------------------------------------------------
+export const LOGO_FILE = "logo/Epoque Steakhouse Logo5 Transparent.png";
+export const LOGO_WIDTH = 480;
+/** Frames between logo and reservations text entrance. */
+export const CLOSING_TEXT_DELAY_FRAMES = 10;
+
+// ---------------------------------------------------------------------------
 // Text overlays (Romanian) - edit copy here
 // ---------------------------------------------------------------------------
 export const TEXT = {
   title: "Grădina Epoque",
   subtitle: "s-a deschis",
-  cta: "Rezervări · [nr/link]",
+  cta: "Rezervări · 0350417048",
 } as const;
 
-export const TEXT_COLOR = "#ffffff";
-export const TEXT_SHADOW = "0 2px 18px rgba(0,0,0,0.55)";
-export const FONT_FAMILY =
-  '"Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif';
+export const TEXT_COLOR = "#faf6f0";
+export const TEXT_SHADOW =
+  "0 2px 24px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.45)";
 
 // IG / TikTok UI safe zones (px). Keep all text inside these margins.
 export const SAFE = {
