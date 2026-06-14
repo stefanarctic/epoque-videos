@@ -13,6 +13,7 @@ import {
   INCOMING_TRANSITIONS,
   MUSIC_FILE,
   MUSIC_START_FROM,
+  MUSIC_VOLUME,
   overlapForTransition,
   OVERLAYS,
   PUNCH_IN,
@@ -24,6 +25,7 @@ import { AmbientCut } from "./components/AmbientCut";
 import { ClosingCard } from "./components/ClosingCard";
 import {
   BackgroundFadeToBlack,
+  FadeFromBlack,
   FullFadeToBlack,
 } from "./components/FadeToBlack";
 import { Grade } from "./components/Grade";
@@ -165,6 +167,7 @@ export const EpoqueGarden: React.FC = () => {
       />
 
       <FullFadeToBlack />
+      <FadeFromBlack />
 
       {/* --- Music (drop /public/music.mp3 and set ENABLE_MUSIC = true) --- */}
       {ENABLE_MUSIC && (
@@ -175,7 +178,7 @@ export const EpoqueGarden: React.FC = () => {
             interpolate(
               f,
               [FADE_OUT_START, DURATION_IN_FRAMES],
-              [1, 0],
+              [MUSIC_VOLUME, 0],
               { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
             )
           }

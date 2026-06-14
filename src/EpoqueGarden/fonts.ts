@@ -36,7 +36,7 @@ export const OVERLAY_TYPOGRAPHY = {
   },
   cta: {
     fontFamily: FONT_DISPLAY,
-    fontWeight: 400,
+    fontWeight: 700,
     letterSpacing: "0.12em",
     lineHeight: 1.2,
   },

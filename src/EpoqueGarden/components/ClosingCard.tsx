@@ -9,13 +9,12 @@ import {
 } from "remotion";
 import {
   CLOSING_TEXT_DELAY_FRAMES,
+  CLOSING_TEXT_DROP_SHADOW,
+  LOGO_COLOR,
   LOGO_DROP_SHADOW,
   LOGO_FILE,
   LOGO_WIDTH,
   SAFE,
-  TEXT_COLOR,
-  TEXT_DROP_SHADOW,
-  TEXT_STROKE,
 } from "../constants";
 import type { OverlayTypography } from "../fonts";
 
@@ -132,16 +131,17 @@ export const ClosingCard: React.FC<ClosingCardProps> = ({
           style={{
             opacity: textOpacity,
             transform: `translateY(${textY}px)`,
-            color: TEXT_COLOR,
+            color: LOGO_COLOR,
             fontFamily: typography.fontFamily,
             fontWeight: typography.fontWeight,
             fontSize,
             lineHeight: typography.lineHeight ?? 1.2,
             letterSpacing: typography.letterSpacing,
+            // Tracked caps read left of center — pad the trailing edge to match the logo axis.
+            paddingRight: typography.letterSpacing,
             textAlign: "center",
-            WebkitTextStroke: TEXT_STROKE,
-            paintOrder: "stroke fill",
-            filter: TEXT_DROP_SHADOW,
+            whiteSpace: "nowrap",
+            filter: CLOSING_TEXT_DROP_SHADOW,
           }}
         >
           {text}

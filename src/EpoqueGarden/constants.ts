@@ -120,6 +120,8 @@ export const VIGNETTE =
 // ---------------------------------------------------------------------------
 export const LOGO_FILE = "logo/Epoque Steakhouse Logo5 Transparent.png";
 export const LOGO_WIDTH = 480;
+/** Gold from the logo asset — use for closing copy so it matches the mark. */
+export const LOGO_COLOR = "#e8a035";
 /** Frames between logo and reservations text entrance. */
 export const CLOSING_TEXT_DELAY_FRAMES = 10;
 
@@ -140,6 +142,9 @@ export const TEXT_STROKE = "0.4px rgba(0,0,0,0.35)";
 /** Dark halo so the orange logo reads on warm / busy backgrounds. */
 export const LOGO_DROP_SHADOW =
   "drop-shadow(0 0 1px rgba(0,0,0,0.95)) drop-shadow(0 0 16px rgba(0,0,0,0.7)) drop-shadow(0 6px 28px rgba(0,0,0,0.55))";
+/** Heavier halo for the closing reservations line. */
+export const CLOSING_TEXT_DROP_SHADOW =
+  "drop-shadow(0 0 2px rgba(0,0,0,0.95)) drop-shadow(0 2px 8px rgba(0,0,0,0.9)) drop-shadow(0 0 32px rgba(0,0,0,0.75)) drop-shadow(0 10px 40px rgba(0,0,0,0.65))";
 
 // IG / TikTok UI safe zones (px). Keep all text inside these margins.
 export const SAFE = {
@@ -161,6 +166,8 @@ export const OVERLAYS = {
 export const ENABLE_MUSIC = true;
 export const MUSIC_FILE = "music.mp3";
 export const MUSIC_START_FROM = 0; // shift to land the first downbeat on frame 0
+export const MUSIC_VOLUME = 0.5; // 0–1; lower if the track sits too loud under the edit
+export const FADE_IN_FRAMES = 15; // black -> footage at open
 export const FADE_OUT_BG_FRAMES = 18; // footage + grade -> black
 export const FADE_OUT_HOLD_FRAMES = 36; // logo on black before the final fade
 export const FADE_OUT_ALL_FRAMES = 15; // overlays -> black
